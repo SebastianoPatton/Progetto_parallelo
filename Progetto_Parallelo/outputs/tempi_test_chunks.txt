@@ -1,0 +1,115 @@
+======================================= 
+TEST DIMENSIONE CHUNK (8192x8192, 12 Threads) 
+Valori testati: 1, 16, 64, 128, 256, 512 
+======================================= 
+--- SCHEDULING: STATIC --- 
+=== Mandelbrot OpenMP ===
+Risoluzione : 8192 x 8192
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 3.99121 s
+Immagine salvata con successo.
+=== Mandelbrot OpenMP ===
+Risoluzione : 8192 x 8192
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 4.0383 s
+Immagine salvata con successo.
+=== Mandelbrot OpenMP ===
+Risoluzione : 8192 x 8192
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 4.18451 s
+Immagine salvata con successo.
+=== Mandelbrot OpenMP ===
+Risoluzione : 8192 x 8192
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 4.49502 s
+Immagine salvata con successo.
+=== Mandelbrot OpenMP ===
+Risoluzione : 8192 x 8192
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 4.84889 s
+Immagine salvata con successo.
+=== Mandelbrot OpenMP ===
+Risoluzione : 8192 x 8192
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 7.17976 s
+Immagine salvata con successo.
+--- SCHEDULING: DYNAMIC --- 
+=== Mandelbrot OpenMP ===
+Risoluzione : 8192 x 8192
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 3.97575 s
+Immagine salvata con successo.
+=== Mandelbrot OpenMP ===
+Risoluzione : 8192 x 8192
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 4.1241 s
+Immagine salvata con successo.
+=== Mandelbrot OpenMP ===
+Risoluzione : 8192 x 8192
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 4.14279 s
+Immagine salvata con successo.
+=== Mandelbrot OpenMP ===
+Risoluzione : 8192 x 8192
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 4.34287 s
+Immagine salvata con successo.
+=== Mandelbrot OpenMP ===
+Risoluzione : 8192 x 8192
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 4.66698 s
+Immagine salvata con successo.
+=== Mandelbrot OpenMP ===
+Risoluzione : 8192 x 8192
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 5.73738 s
+Immagine salvata con successo.
+--- SCHEDULING: GUIDED --- 
+=== Mandelbrot OpenMP ===
+Risoluzione : 8192 x 8192
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 4.47713 s
+Immagine salvata con successo.
+=== Mandelbrot OpenMP ===
+Risoluzione : 8192 x 8192
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 4.523 s
+Immagine salvata con successo.
+=== Mandelbrot OpenMP ===
+Risoluzione : 8192 x 8192
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 4.43624 s
+Immagine salvata con successo.
+=== Mandelbrot OpenMP ===
+Risoluzione : 8192 x 8192
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 4.47218 s
+Immagine salvata con successo.
+=== Mandelbrot OpenMP ===
+Risoluzione : 8192 x 8192
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 4.60804 s
+Immagine salvata con successo.
+=== Mandelbrot OpenMP ===
+Risoluzione : 8192 x 8192
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 5.72808 s
+Immagine salvata con successo.

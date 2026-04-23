@@ -1,0 +1,90 @@
+---
+title: "Relazione Progetto Parallelo"
+author: "Sebastiano Patton"
+date: "2026-04-20"
+output:
+  html_document:
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduzione
+Lo scopo del progetto è progettare e implementare un software c++ e OpenMp parallelo per poi fare un'analisi delle prestazioni analizzando l'impatto della variazione dei parametri. Ho deciso di scrivere un programma che calcola l'insieme di Mandelbrot, ovvero un insieme di numeri complessi c per i quali la successione definita da: 
+$$\begin{equation}\begin{cases}Z_0 = 0 \\Z_{n+1} = Z_n^2 + c\end{cases}\end{equation}$$
+è limitata. Questo programma va quindi a calcolare il numero di iterazioni necessarie per far tendere all'infinito il punto, ciò avviene quando la distanza dal centro del punto z è maggiore di 2 ovvero quando:
+$$|Z|^2 = Z_x^2 +Z_y^2 > 4$$
+![](/Progetto_Parallelo/Relazione/grafici/compute.png)
+
+quando il codice raggiunge il numero massimo di iterazioni per un punto si considera tale punto parte dell'insieme e in ogni caso va a salvare il numero di iterazioni svolte per ogni pixel dell'immagine. Nel codice si utilizza una variabile chiamata tmp per conservare il vecchio valore di Zx in quanto lo ne ho bisogno per calcolare la nuova Zy.
+Per generare l'immagine in output il codice calcola il passo lungo X e lungo Y, ovvero va a calcolare a quanto spazio del piano immaginario corrisponde un pixel e salva questi valori come due costanti:
+$$\frac{X_{max} - X_{min}}{X_{p}}$$ 
+$$\frac{Y_{max} - Y_{min}}{Y_{p}}$$
+Con Xp e Yp che indicano il numero di pixel lungo X e lungo Y con cui creo l'immagine. Il codice userà i passi dx e dy per calcolare le coordinate matematiche di ogni pixel ovvero cx e cy che andrà poi ad usare per il calcolo del numero di iterazioni. Per farlo somma al valore minimo del piano immaginario che consideriamo il numero della riga o della colonna moltiplicato per il passo rispettivo (dy per le righe e dx per le colonne).
+Tramite la libreria grafica il numero viene interpretato e gli si assegna un colore.
+
+![](/Progetto_Parallelo/Relazione/grafici/render.png)
+
+Il codice creerà nella cartella output delle immagini come questa:
+![](/Progetto_Parallelo/Relazione/grafici/test_par_4096.png)
+
+Il motivo per cui ho scelto l’insieme di mandelbrot è che si tratta di un problema “embarassingly parallel”, questo perché il calcolo del valore corrispondente ad ogni pixel è completamente indipendente dagli altri rendendolo un codice facilmente parallelizzabile. Questo lo rende un programma adatto per analizzare le diverse configurazioni di parallelizzazione come il variare del numero dei pixel, lo scheduling e il numero di thread.
+
+Per fare questi test ho utilizzato il mio computer che ha un processore amd ryzen 3600xt con 6 core e 12 processori logici totali insieme a 16gb di ram. Per fare l’analisi delle prestazioni il dato più importante di cui necessito è il tempo impiegato ad eseguire il programma, che non deve includere il tempo di scrittura e lettura dai file contenenti i parametri necessari per il funzionamento del codice. Per raccogliere questo dato ho usato il comando omp_get_wtime() che viene chiamato subito prima e subito dopo l’esecuzione del codice andando così a salvare gli orari in cui è stato chiamato per poi calcolare il tempo con una sottrazione (tempo finale - tempo inizale)
+
+# Parallelizzazione
+
+Nel mio codice sono presenti due cicli for annidati, il primo (il più esterno) scorre le righe mentre il secondo scorre le colonne. Per parallelizzare il codice in modo efficiente faccio svolgere in parallelo il ciclo più esterno dato che: se il codice svolgesse in parallelo il ciclo interno si andrebbero a creare e distruggere tantissimi thread andando così a generare un overhead che renderebbe il codice parallelo più lento del codice seriale. Un altro problema che occorrerebbe sarebbe che i vari thread userebbero gli stessi pixel in quanto non sarebbero dichiarate bene quali variabili sono condivise e quali sono private. Parallelizzando il ciclo più esterno si impostano come variabili condivise: numero di iterazioni, dimensione in pixel dell’immagine, le dimensioni della sezione di piano immaginario che voglio analizzare e i passi che ho calcolato (dx e dy), e  come variabili private ho impostato: “row” ovvero l’indice del ciclo for principale (righe), “col” l’indice del ciclo annidato (colonne) ed infine le coordinate cx e cy correnti.
+Per il tipo di codice che ho scelto è quindi impossibile andare a cambiare quali variabili sono private e quali sono condivise, perché andrebbe a creare dei conflitti che non farebbero risultare correttamente l’immagine.
+
+# Analisi delle prestazioni
+
+## Confronto seriale e parallelo
+Come primo test ho deciso di fare lo studio delle performance al variare della dimensione dell'immagine, in serie e in parallelo (scheduling: dinamico); e ho osservato il variare delle prestazioni con l'aumento del numero di pixel da calcolare. Si nota che per risoluzioni basse ovvero 512x512 e 1024x1024 il tempo diesecuzione è molto simile per seriale e parallelo ma, salendo con la qualità delle immagini, si vede aumentare notevolmente il tempo del seriale (arrivando fino a 10.6 secondi per 4096x4096 e 41.5 secondi per 8192x8192) mentre il parallelo mantiene un esecuzione molto veloce impiegandoci addirittura il 90% del tempo in meno.
+
+![](/Progetto_Parallelo/Relazione/grafici/serievsparallelo.png)
+
+## Studio Performance al variare del numero di thread
+I thread sono l'unità minima di esecuzione che può essere gestita da un sistema operativo e il multithreading è il fondamento della parallelizzazione, questo perchè i vari core della cpu per svolgere un programma in parallelo creano vari thread su cui svolgono operazioni diverse in contemporanea permettendo quindi elevate velocità di calcolo. In base al numero di thread che impongo alla cpu di creare si può individuare quale sia la quantità ideale per il funzionamento del codice, questo perchè se ho troppi pochi thread la cpu non andrà al massimo, mentre se ne ho troppi andrei a continuare a creare thread nuovi andando a rallentare l'esecuzione del programma. Ho notato che ho il funzionamento migliore quando il numero di thread è 12 ovvero pari al numero di processori logici della mia cpu. Ho fatto i test con 1,12,512,2048,8192 e 16384 thread e una risoluzione di 4096 e 512,In entrambi i casi il più lento è chiaramente stato quello con 1 thread in quanto è l'equivalente di svolgere il codice in seriale, mentre ho notato un aumento significativo dei tempi di esecuzione da 8192 thread in poi.
+
+![](/Progetto_Parallelo/Relazione/grafici/numerodithread.png)
+
+Il grafico ha una scala logaritmica per l'asse delle ascisse
+
+### Speedup e Overhead
+Con lo studio delle performanca al variare del numero dei thread ho potuto analizzare anche due caratteristiche importanti per la parallelizzazione ovvero Speedup e Overhead:
+
+-Speedup: Di quante volte aumenta la velocità di esecuzione all'aumentare del numero di thread $Speedup = \frac{t_{seriale}}{t_{nthread}}$
+
+![](/Progetto_Parallelo/Relazione/grafici/speedup.png)
+
+Si nota che lo speedup aumenta fino ad avere circa 12 thread, successivamente lo speedup diminuisce sempre di più. Il codice rimane comunque più veloce in parallelo. Dato che l'immagine 512x512 è molto piccola il codice suddivide il carico in task di dimensioni ridotte ad ogni thread andando andando così ad aumentare notevolmente l'overhead e diminuendo più velocemente lo speedup. 
+
+-Overhead: è il tempo perso ad assegnare i valori richiesti ad ogni thread $Overhead = t_{nthread} - \frac{t_{1thread}}{n_{thread}}$
+
+![](/Progetto_Parallelo/Relazione/grafici/overhead.png)
+
+Dal grafico dell'overhead è chiaro che un eccessivo aumento del numero di thread va solo a causare dei rallentamenti nell'esecuzione del codice in quanto aumenta la quantità di richieste di dati andando a rallentare l'esecuzione.
+
+## Studio delle performance in base allo scheduling
+Lo scheduling è il modo in cui le varie iterazioni dei cicli for vengono forniti ai thread. Ci sono tre tipi di scheduling: static, dynamic  e guided.
+
+-Static: divide le iterazioni del ciclo for in blocchi di uguali dimensioni e liassegna ognuno ad un thread. Quando un thread finisce di calcolare un blocco, gli si fornisce un altro blocco di uguali dimensioni. Solitamente le dimensioni di questo blocco sono N/threads. Questo tipo di scheduling non fa caso al tempo impiegato da ciascun thread per risolvere il blocco, questo può causare sbilanciamenti nel carico in quanto alcuni blocchi sono più pesanti di altri e di conseguenza richiedono più tempo per essere calcolati. Un vantaggio è che ha il minor overhead di tutti in quanto tende a dividere il numero di iterazioni per il numero di thread e assegnare uno di questi blocchi ad ognuno di questi thread, così facendo non sono richieste comunicazioni e quindi non c'è overhead.
+
+-Dynamic: L'assegnazione delle iterazioni avviene durante l'esecuzione del ciclo, quindi si assegnano dei blocchi ad ogni thread e appena uno dei thread finisce di calcolare un blocco ne riceve un altro da calcolare. La dimensione di default dei chuank è 1. Così facendo non ci sono blocchi inattivi ed è l'ideale per codici con blocchi con tempi molto variabili come nel caso del mio codice. Data la quantità di richieste di blocchi da assegnare lo scheduling dynamic presenta abbastanza overhead.
+
+-Guided: Anche qua l'assegnazione delle iterazioni avviene durantel'esecuzione del ciclo solo che i blocchi che vengono assegnati ai vari thread diminuiscono di dimensioni mano a mano che proseguono le assegnazioni. I blocchi assegnati sono di dimensioni proporzionali al numero di operazioni rimantenti diviso il numero di thread. Lo scopo di questo scheduling è diminuire l'overhead iniziale diminuendo le richieste all'inizio e aumentandole man mano durante l'esecuzione.
+
+![](/Progetto_Parallelo/Relazione/grafici/scheduling.png)
+
+Ho fatto i test con risoluzioni di 512x512, 1024x1024, 2048x2048, 4096x4096 e 8192x8192. Le risoluzioni più alte mettono in evidenza le differenze di tempo richieste per il calcolo delle iterazioni in base allo scheduling e chiaramente: lo scheduling dynamic è il più veloce, il guided è una via di mezzo mentre lo static è il più lento. Tale risultato è corente con l'analisi visiva dell'immagine per generata per capirlo, le sezioni blu sono quelle che richiedono meno iterazioni per tendere all'infinito mentre quelle nere sono quelle che ne richiedono di più. le sezioni nere sono tutte abbastanza vicine tra di loro e quindi per uno scheduling static o guided è probabile che nei grandi pacchetti (iniziali nel caso del guided) che vanno a calcolare ce ne siano alcuni con la maggior parte di linea che richiedono poche iterazioni mentre altre che ne richiedono molte in quanto hanno righe principalmente nere. Questo rende lo scheduling dynamic il più veloce dato che fin da subito prende pacchetti piccoli e nonostante il maggior overhead riesce comunque ad essere più veloce.
+
+### Variazione del numero dei chunk
+I chunk sono la dimensione dei pacchetti  che vengono assegnati ai thread ovvero la quantità di righe che assegno ad ogni thread, variandole vado a modificare la velocità dei vari scheduling. Guardando il grafico si nota che nonostante l'aumento dell'overhead, tenere le dimensioni dei chunk basse aiuta a diminuire i tempi di esecuzione per scheduling dynamic e static mentre lo scheduling guided rimane abbastanza costante fino a chunk da 128 righe. questo accade perchè nel caso dello scheduling guided la dimensione dei chunk che si imposta indica il valore minimo che possono ragigungere i chunk con l'andare del programma, per questo se il valore minimo è minore di quanto gli avrebbe assegnato in ogni caso il numero di chunk non influisce.ù
+
+![](/Progetto_Parallelo/Relazione/grafici/chunk.png)
+
+# Conclusioni
+Visti i risultati dei vari test ritengo che per il miglior metodo per parallelizzare  l'insieme di mandelbrot su un computer con 6 core sia di utilizzare un scheduling dinamico (con dimensioni dei chunk di 1) e 12 thread per parallelizzare il ciclo for più esterno, ovvero quello delle righe. Queste impostazioni permettono di abbattere i tempi di esecuzione del 90% per immagini molto pesanti rendendolo quindi estremamente più efficiente.

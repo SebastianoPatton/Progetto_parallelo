@@ -1,0 +1,24 @@
+======================================= 
+TEST SCHEDULING (Risoluzione: 1024x1024 - Threads: 12) 
+======================================= 
+--- Scheduling: STATIC --- 
+=== Mandelbrot OpenMP ===
+Risoluzione : 1024 x 1024
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 0.0784614 s
+Immagine salvata con successo.
+--- Scheduling: DYNAMIC --- 
+=== Mandelbrot OpenMP ===
+Risoluzione : 1024 x 1024
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 0.0614468 s
+Immagine salvata con successo.
+--- Scheduling: GUIDED --- 
+=== Mandelbrot OpenMP ===
+Risoluzione : 1024 x 1024
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 0.079231 s
+Immagine salvata con successo.

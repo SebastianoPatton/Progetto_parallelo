@@ -1,0 +1,38 @@
+======================================= 
+TEST SCALABILITA' PARALLELA 
+======================================= 
+--- Test 512x512 --- 
+=== Mandelbrot OpenMP ===
+Risoluzione : 512 x 512
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 0.0158682 s
+Immagine salvata con successo.
+--- Test 1024x1024 --- 
+=== Mandelbrot OpenMP ===
+Risoluzione : 1024 x 1024
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 0.0616996 s
+Immagine salvata con successo.
+--- Test 2048x2048 --- 
+=== Mandelbrot OpenMP ===
+Risoluzione : 2048 x 2048
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 0.245976 s
+Immagine salvata con successo.
+--- Test 4096x4096 --- 
+=== Mandelbrot OpenMP ===
+Risoluzione : 4096 x 4096
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 0.982324 s
+Immagine salvata con successo.
+--- Test 8192x8192 --- 
+=== Mandelbrot OpenMP ===
+Risoluzione : 8192 x 8192
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 4.0345 s
+Immagine salvata con successo.

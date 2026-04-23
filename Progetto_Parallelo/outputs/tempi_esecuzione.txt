@@ -1,0 +1,10 @@
+=== Esecuzione Seriale === 
+=== Mandelbrot Serial ===
+Risoluzione : 512 x 512
+Max iter    : 500
+Piano reale : [-0.7269, -0.722]
+Piano imm.  : [0.1889, 0.193]
+Output      : outputs/mandelbrot.png
+Calcolo in corso...
+Tempo di calcolo: 0.163968 s
+Immagine salvata con successo.

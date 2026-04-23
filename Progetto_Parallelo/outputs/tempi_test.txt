@@ -1,0 +1,53 @@
+======================================= 
+TEST SCALABILITA' SERIALE 
+======================================= 
+--- Test 512x512 --- 
+=== Mandelbrot Serial ===
+Risoluzione : 512 x 512
+Max iter    : 500
+Piano reale : [-0.7269, -0.722]
+Piano imm.  : [0.1889, 0.193]
+Output      : outputs/test_512.png
+Calcolo in corso...
+Tempo di calcolo: 0.163379 s
+Immagine salvata con successo.
+--- Test 1024x1024 --- 
+=== Mandelbrot Serial ===
+Risoluzione : 1024 x 1024
+Max iter    : 500
+Piano reale : [-0.7269, -0.722]
+Piano imm.  : [0.1889, 0.193]
+Output      : outputs/test_1024.png
+Calcolo in corso...
+Tempo di calcolo: 0.652447 s
+Immagine salvata con successo.
+--- Test 2048x2048 --- 
+=== Mandelbrot Serial ===
+Risoluzione : 2048 x 2048
+Max iter    : 500
+Piano reale : [-0.7269, -0.722]
+Piano imm.  : [0.1889, 0.193]
+Output      : outputs/test_2048.png
+Calcolo in corso...
+Tempo di calcolo: 2.61352 s
+Immagine salvata con successo.
+--- Test 4096x4096 --- 
+=== Mandelbrot Serial ===
+Risoluzione : 4096 x 4096
+Max iter    : 500
+Piano reale : [-0.7269, -0.722]
+Piano imm.  : [0.1889, 0.193]
+Output      : outputs/test_4096.png
+Calcolo in corso...
+Tempo di calcolo: 10.3141 s
+Immagine salvata con successo.
+--- Test 8192x8192 --- 
+=== Mandelbrot Serial ===
+Risoluzione : 8192 x 8192
+Max iter    : 500
+Piano reale : [-0.7269, -0.722]
+Piano imm.  : [0.1889, 0.193]
+Output      : outputs/test_8192.png
+Calcolo in corso...
+Tempo di calcolo: 42.0348 s
+Immagine salvata con successo.

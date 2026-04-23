@@ -1,0 +1,46 @@
+======================================= 
+TEST SPEEDUP E OVERHEAD (Risoluzione: 512x512) 
+Valori thread testati: 1, 12, 512, 2048, 4096, 16384 
+======================================= 
+--- Parallelo: 1 Thread --- 
+=== Mandelbrot OpenMP ===
+Risoluzione : 512 x 512
+Thread Usati: 1
+Calcolo in corso...
+Tempo di calcolo: 0.16652 s
+Immagine salvata con successo.
+--- Parallelo: 12 Thread --- 
+=== Mandelbrot OpenMP ===
+Risoluzione : 512 x 512
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 0.016559 s
+Immagine salvata con successo.
+--- Parallelo: 512 Thread --- 
+=== Mandelbrot OpenMP ===
+Risoluzione : 512 x 512
+Thread Usati: 512
+Calcolo in corso...
+Tempo di calcolo: 0.033611 s
+Immagine salvata con successo.
+--- Parallelo: 2048 Thread --- 
+=== Mandelbrot OpenMP ===
+Risoluzione : 512 x 512
+Thread Usati: 2048
+Calcolo in corso...
+Tempo di calcolo: 0.0793099 s
+Immagine salvata con successo.
+--- Parallelo: 4096 Thread --- 
+=== Mandelbrot OpenMP ===
+Risoluzione : 512 x 512
+Thread Usati: 4096
+Calcolo in corso...
+Tempo di calcolo: 0.152408 s
+Immagine salvata con successo.
+--- Parallelo: 16384 Thread --- 
+=== Mandelbrot OpenMP ===
+Risoluzione : 512 x 512
+Thread Usati: 16384
+Calcolo in corso...
+Tempo di calcolo: 0.559544 s
+Immagine salvata con successo.

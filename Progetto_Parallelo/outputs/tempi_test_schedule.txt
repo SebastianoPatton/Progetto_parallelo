@@ -1,0 +1,25 @@
+======================================= 
+TEST SCHEDULING E BILANCIAMENTO CARICO 
+(Risoluzione: 8192x8192 - Threads: 12) 
+======================================= 
+--- Scheduling: STATIC --- 
+=== Mandelbrot OpenMP ===
+Risoluzione : 8192 x 8192
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 5.11017 s
+Immagine salvata con successo.
+--- Scheduling: DYNAMIC --- 
+=== Mandelbrot OpenMP ===
+Risoluzione : 8192 x 8192
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 4.05772 s
+Immagine salvata con successo.
+--- Scheduling: GUIDED --- 
+=== Mandelbrot OpenMP ===
+Risoluzione : 8192 x 8192
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 4.41506 s
+Immagine salvata con successo.

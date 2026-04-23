@@ -1,0 +1,45 @@
+======================================= 
+TEST SCALABILITA' THREAD (Risoluzione 4096x4096) 
+======================================= 
+--- 1 Thread --- 
+=== Mandelbrot OpenMP ===
+Risoluzione : 4096 x 4096
+Thread Usati: 1
+Calcolo in corso...
+Tempo di calcolo: 10.5174 s
+Immagine salvata con successo.
+--- 2 Thread --- 
+=== Mandelbrot OpenMP ===
+Risoluzione : 4096 x 4096
+Thread Usati: 2
+Calcolo in corso...
+Tempo di calcolo: 5.30567 s
+Immagine salvata con successo.
+--- 4 Thread --- 
+=== Mandelbrot OpenMP ===
+Risoluzione : 4096 x 4096
+Thread Usati: 4
+Calcolo in corso...
+Tempo di calcolo: 2.7364 s
+Immagine salvata con successo.
+--- 6 Thread --- 
+=== Mandelbrot OpenMP ===
+Risoluzione : 4096 x 4096
+Thread Usati: 6
+Calcolo in corso...
+Tempo di calcolo: 1.85961 s
+Immagine salvata con successo.
+--- 8 Thread --- 
+=== Mandelbrot OpenMP ===
+Risoluzione : 4096 x 4096
+Thread Usati: 8
+Calcolo in corso...
+Tempo di calcolo: 1.41823 s
+Immagine salvata con successo.
+--- 12 Thread --- 
+=== Mandelbrot OpenMP ===
+Risoluzione : 4096 x 4096
+Thread Usati: 12
+Calcolo in corso...
+Tempo di calcolo: 1.00751 s
+Immagine salvata con successo.
