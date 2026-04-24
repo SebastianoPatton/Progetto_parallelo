@@ -1,0 +1,1 @@
+Ho scritto la relazione usando Rstudio, tutto ciò che ho usato per farla si trova nella cartella relazione che non serve per l'esecuzionedel codice. Ho avuto problemi con l'esportazione a pdf e html quindi potete trovare la relazione completa in formato word
